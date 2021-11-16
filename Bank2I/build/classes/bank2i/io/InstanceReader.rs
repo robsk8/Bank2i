@@ -1,0 +1,6 @@
+io.InstanceReader
+io.InstanceReader$InfosAgenceLocale
+io.InstanceReader$Infos
+io.InstanceReader$InfosAgenceRegionale
+io.InstanceReader$InfosClient
+io.InstanceReader$InfosAgence
