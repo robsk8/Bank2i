@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -36,23 +38,30 @@ public class Client implements Serializable {
     @Column(name="MONTANT_EMPRUNT",nullable = false)
     private double montantEmprunt;
     
+    @ManyToOne
+    @JoinColumn(name="INST_ID")
+    private Instance instance;
+    
     public Client() {
         this.idClient = "-1";
         this.x = 0;
         this.y = 0;
         this.chiffreAffaire = 0;
         this.montantEmprunt = 0;
+        this.instance = new Instance();
     }
 
-    public Client(String id, double x, double y, double chiffreAffaire, double montantEmprunt) {
-        if (id != null)
+    public Client(String id, double x, double y, double chiffreAffaire, double montantEmprunt, Instance instance) {
+        if(id!=null)
             this.idClient = id;
         this.x = x;
         this.y = y;
-        if (chiffreAffaire > 0)
+        if(chiffreAffaire>0)
             this.chiffreAffaire = chiffreAffaire;
-        if( montantEmprunt > 0)
+        if(montantEmprunt>0)
             this.montantEmprunt = montantEmprunt;
+        if(instance != null)
+            this.instance = instance;
     }
     
     @Override
@@ -77,12 +86,12 @@ public class Client implements Serializable {
 
     @Override
     public String toString() {
-        return "Client{" + "id=" + idClient + ", x=" + x + ", y=" + y + ", chiffreAffaire=" + chiffreAffaire + ", montantEmprunt=" + montantEmprunt + '}';
+        return "Client{" + "id=" + idClient + ", x=" + x + ", y=" + y + ", chiffreAffaire=" + chiffreAffaire + ", montantEmprunt=" + montantEmprunt + ", Instance:" + instance.getNom() + ", idInstance:" + instance.getId() +'}';
     }
 
     public static void main(String[] args) {
-        Client c1 = new Client("Toto", 5.5, 4.5, 4.5, 4.6);
-        System.out.println("c1:" + c1.toString() + ")");
+//        Client c1 = new Client("TOTOT",5.5,4.5,4.5,4.6);
+//        System.out.println("C1:" + c1.toString() +")");
     }
 
 }

@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -34,20 +36,27 @@ public class Agence implements Serializable {
     @Column(name="COUT_LOCATION",nullable = false)
     private double coutLocation;
     
+    @ManyToOne
+    @JoinColumn(name="INST_ID")
+    private Instance instance;
+    
     public Agence() {
         idAgence = "a0";
         x = 0;
         y = 0;
         coutLocation = 0;
+        this.instance = new Instance();
     }
-
-    public Agence(String id, double x, double y, double coutLocation) {
-        if (id != null)
+    
+    public Agence(String id, double x, double y, double coutLocation, Instance instance) {
+        if(id!=null)
             this.idAgence = id;
         this.x = x;
         this.y = y;
-        if (coutLocation >= 0)
+        if(coutLocation >= 0)
             this.coutLocation = coutLocation;
+        if(instance != null)
+            this.instance = instance;
     }
 
     @Override
@@ -72,7 +81,9 @@ public class Agence implements Serializable {
 
     @Override
     public String toString() {
-        return "id=" + idAgence + ", x=" + x + ", y=" + y + ", coutLocation=" + coutLocation;
+        return "id=" + idAgence + ", x=" + x + ", y=" + y + ", coutLocation=" + coutLocation + ", Instance:" + instance.getNom() + ", idInstance:" + instance.getId();
     }
-    
+
+
+
 }
