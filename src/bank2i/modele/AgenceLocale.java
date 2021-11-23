@@ -8,9 +8,6 @@ package bank2i.modele;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 /**
  *
@@ -34,16 +31,14 @@ public class AgenceLocale extends Agence implements Serializable {
 
     public AgenceLocale(String id, double x, double y, double coutLocation, int nbMaxClients, double coeffAccessibilite) {
         super(id, x, y, coutLocation);
-        if (nbMaxClients > 0) {
+        if (nbMaxClients > 0)
             this.nbMaxClients = nbMaxClients;
-        } else {
+        else
             this.nbMaxClients = 0;
-        }
-        if (coeffAccessibilite <= 5 && coeffAccessibilite >= 1) {
+        if (coeffAccessibilite <= 5 && coeffAccessibilite >= 1)
             this.coeffAccessibilite = coeffAccessibilite;
-        } else {
+        else
             this.coeffAccessibilite = 5.0;
-        }
     }
 
     @Override
@@ -54,7 +49,7 @@ public class AgenceLocale extends Agence implements Serializable {
     public static void main(String[] args) {
         AgenceLocale a1 = new AgenceLocale("l1", 50.3, 502.3, 59394.34, 5, 3.4);
         AgenceLocale a2 = new AgenceLocale("l2", 5.3, 2.3, 594.34, 5, 8);
-        System.out.println("A1:" + a1.toString());
-        System.out.println("A2:" + a2.toString());
+        System.out.println("a1:" + a1.toString());
+        System.out.println("a2:" + a2.toString());
     }
 }

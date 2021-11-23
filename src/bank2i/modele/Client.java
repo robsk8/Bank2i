@@ -45,13 +45,13 @@ public class Client implements Serializable {
     }
 
     public Client(String id, double x, double y, double chiffreAffaire, double montantEmprunt) {
-        if(id!=null)
+        if (id != null)
             this.idClient = id;
         this.x = x;
         this.y = y;
-        if(chiffreAffaire>0)
+        if (chiffreAffaire > 0)
             this.chiffreAffaire = chiffreAffaire;
-        if(montantEmprunt>0)
+        if( montantEmprunt > 0)
             this.montantEmprunt = montantEmprunt;
     }
     
@@ -81,8 +81,8 @@ public class Client implements Serializable {
     }
 
     public static void main(String[] args) {
-        Client c1 = new Client("TOTOT",5.5,4.5,4.5,4.6);
-        System.out.println("C1:" + c1.toString() +")");
+        Client c1 = new Client("Toto", 5.5, 4.5, 4.5, 4.6);
+        System.out.println("c1:" + c1.toString() + ")");
     }
 
 }

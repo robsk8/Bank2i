@@ -42,11 +42,11 @@ public class Agence implements Serializable {
     }
 
     public Agence(String id, double x, double y, double coutLocation) {
-        if(id!=null)
+        if (id != null)
             this.idAgence = id;
         this.x = x;
         this.y = y;
-        if(coutLocation >= 0)
+        if (coutLocation >= 0)
             this.coutLocation = coutLocation;
     }
 
@@ -74,7 +74,5 @@ public class Agence implements Serializable {
     public String toString() {
         return "id=" + idAgence + ", x=" + x + ", y=" + y + ", coutLocation=" + coutLocation;
     }
-
-
-
+    
 }

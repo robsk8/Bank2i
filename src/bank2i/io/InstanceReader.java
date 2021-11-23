@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io;
+package bank2i.io;
 
 import bank2i.modele.AgenceLocale;
 import bank2i.modele.AgenceRegionale;
@@ -111,12 +111,11 @@ public class InstanceReader {
                 // Dans la boucle qui suit, nous allons lire les donnees relatives a chaque client.
                 while (true) {
                     InfosClient elem = readClientInLine(scanner, HEADER_AGENCES_LOCALES);
-                    //System.out.println("ELEM:" + elem);
                     if (elem == null) {
                         break;
                     }
                     Client c = new Client(elem.getIdentifiant(), elem.getAbscisse(), elem.getOrdonnee(), elem.getChiffreAffaires(), elem.getEmprunts());
-                    System.out.println("C:" + c.toString());
+                    System.out.println("c:" + c.toString());
                     em.persist(c);
                     // Notez que elem est un objet qui contient cinq attributs : 
                     // un identifiant ; une abscisse ; une ordonnee, un chiffre d'affaires
@@ -136,12 +135,11 @@ public class InstanceReader {
                 // Dans la boucle qui suit, nous allons lire les donnees relatives a chaque agence locale.
                 while (true) {
                     InfosAgenceLocale elem = readAgenceLocaleInLine(scanner, HEADER_AGENCES_REGIONALES);
-                    //System.out.println("ELEM AGENCE:" + elem);
                     if (elem == null) {
                         break;
                     }
                     AgenceLocale l = new AgenceLocale(elem.getIdentifiant(), elem.getAbscisse(), elem.getOrdonnee(), elem.getCoutLocation(), elem.getNbMaxClients(), elem.getAccessibilitte());
-                    System.out.println("AL:" + l.toString());
+                    System.out.println("al:" + l.toString());
                     em.persist(l);
                     // Notez que elem est un objet qui contient six attributs : 
                     // un identifiant ; une abscisse ; une ordonnee ; un cout de
@@ -166,7 +164,7 @@ public class InstanceReader {
                         break;
                     }
                     AgenceRegionale r = new AgenceRegionale(elem.getIdentifiant(), elem.getAbscisse(), elem.getOrdonnee(), elem.getCoutLocation(), elem.getChiffreAffairesMax(), elem.getEmpruntsMax());
-                    System.out.println("AR:" + r.toString());
+                    System.out.println("ar:" + r.toString());
                     em.persist(r);
                     // Notez que elem est un objet qui contient six attributs : 
                     // un identifiant ; une abscisse ; une ordonnee ; un cout de
