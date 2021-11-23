@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io;
+package bank2i.io;
 
 import bank2i.modele.AgenceLocale;
 import bank2i.modele.AgenceRegionale;
