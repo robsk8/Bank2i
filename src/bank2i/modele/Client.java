@@ -31,6 +31,34 @@ public class Client implements Serializable {
     private double x;
     @Column(name="ORDONNEE",nullable = false)
     private double y;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getIdClient() {
+        return idClient;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public double getChiffreAffaire() {
+        return chiffreAffaire;
+    }
+
+    public double getMontantEmprunt() {
+        return montantEmprunt;
+    }
     @Column(name="CHIFFRE_AFFAIRE",nullable = false)
     private double chiffreAffaire;
     @Column(name="MONTANT_EMPRUNT",nullable = false)

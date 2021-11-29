@@ -33,6 +33,30 @@ public class Agence implements Serializable {
     private double y;
     @Column(name="COUT_LOCATION",nullable = false)
     private double coutLocation;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getIdAgence() {
+        return idAgence;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public double getCoutLocation() {
+        return coutLocation;
+    }
     
     public Agence() {
         idAgence = "a0";

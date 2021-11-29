@@ -5,12 +5,16 @@
  */
 package vuecontrole;
 
+import bank2i.modele.AgenceLocale;
+import bank2i.modele.AgenceRegionale;
 import bank2i.modele.Client;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import requete.RequeteDB;
@@ -25,10 +29,12 @@ public class Position extends javax.swing.JFrame {
     RequeteDB requete;
     private Graphics graphics;
     
-    public Position() {
+    public Position() throws SQLException {
         initComponents();
         initialisationFenetre();
         initConnexion();
+        afficherPoints();
+ 
     }
 
     
@@ -53,11 +59,27 @@ public class Position extends javax.swing.JFrame {
     
     private void afficherPoints() throws SQLException{
         DefaultListModel list1 = new DefaultListModel();
+        DefaultListModel list2 = new DefaultListModel();
+        DefaultListModel list3 = new DefaultListModel();
         List<Client> clientlist = requete.ensClients();
-        for (Client c : clientlist) {
-           // Point p = new Point(30,30);
+       for (Client c : clientlist) {
+            Points p = new Points(c.getX(),c.getY(),Color.green);
+            jPanel1.add(p);
+            p.setSize(jPanel1.getHeight(),jPanel1.getWidth());
             
-        }   
+       }  
+       List<AgenceLocale> localelist = requete.ensAgenceLocale();
+        for (AgenceLocale a1 : localelist) {
+            Points p = new Points(a1.getX(),a1.getY(),Color.blue);
+            jPanel1.add(p);
+            p.setSize(jPanel1.getHeight(),jPanel1.getWidth());
+       }  
+       List<AgenceRegionale> regionalelist = requete.ensAgenceRegionale();
+        for (AgenceRegionale a2 : regionalelist) {
+            Points p = new Points(a2.getX(),a2.getY(),Color.red);
+            jPanel1.add(p);
+            p.setSize(jPanel1.getHeight(),jPanel1.getWidth());
+       }  
     
     }
     
@@ -100,7 +122,7 @@ public class Position extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(514, 514, 514)
+                        .addGap(517, 517, 517)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(93, 93, 93)
@@ -114,7 +136,7 @@ public class Position extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(32, 32, 32)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -150,7 +172,11 @@ public class Position extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Position().setVisible(true);
+                try {
+                    new Position().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Position.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

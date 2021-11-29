@@ -185,7 +185,11 @@ public class Accueil extends javax.swing.JFrame {
     }//GEN-LAST:event_positionActionPerformed
 
     private void positionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_positionMouseClicked
-        Position p = new Position();
+        try {
+            Position p = new Position();
+        } catch (SQLException ex) {
+            Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_positionMouseClicked
 
     /**
