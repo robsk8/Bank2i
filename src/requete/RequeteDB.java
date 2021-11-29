@@ -5,6 +5,9 @@
  */
 package requete;
 
+import bank2i.modele.Agence;
+import bank2i.modele.AgenceLocale;
+import bank2i.modele.AgenceRegionale;
 import bank2i.modele.Client;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -30,12 +33,42 @@ public class RequeteDB {
         Statement stmt = objet.createStatement();
         ResultSet res = stmt.executeQuery(requete);
         while (res.next()) {
-            Client c = new Client(res.getString("CLIENT_ID"), res.getInt("ABSCISSE"), res.getInt("ORDONNEE"), res.getInt("CHIFFRE_AFFAIRE"), res.getInt("MONTANT_EMPRUNT"));
+            Client c = new Client(res.getString("CLIENT_ID"), res.getDouble("ABSCISSE"), res.getDouble("ORDONNEE"), res.getDouble("CHIFFRE_AFFAIRE"), res.getDouble("MONTANT_EMPRUNT"));
             listeClient.add(c);
         }
         res.close();
         stmt.close();
         return listeClient;
+    }
+    
+    public List<AgenceLocale> ensAgenceLocale() throws SQLException { // retourne les niveaux et numeros de la table risque
+        List<AgenceLocale> listeAgenceLocale = new ArrayList<>();
+
+        String requete = "SELECT * FROM AGENCE WHERE DTYPE LIKE 'AgenceLocale'";
+        Statement stmt = objet.createStatement();
+        ResultSet res = stmt.executeQuery(requete);
+        while (res.next()) {
+            AgenceLocale a = new AgenceLocale(res.getString("AGENCE_ID"), res.getDouble("ABSCISSE"), res.getDouble("ORDONNEE"), res.getDouble("COUT_LOCATION"), res.getInt("NBMAX_CLIENTS"), res.getDouble("COEFF_ACCESSIBILITE"));
+            listeAgenceLocale.add(a);
+        }
+        res.close();
+        stmt.close();
+        return listeAgenceLocale;
+    }
+    
+    public List<AgenceRegionale> ensAgenceRegionale() throws SQLException { // retourne les niveaux et numeros de la table risque
+        List<AgenceRegionale> listeAgenceRegionale = new ArrayList<>();
+
+        String requete = "SELECT * FROM AGENCE WHERE DTYPE LIKE 'AgenceRegionale'";
+        Statement stmt = objet.createStatement();
+        ResultSet res = stmt.executeQuery(requete);
+        while (res.next()) {
+            AgenceRegionale a = new AgenceRegionale(res.getString("AGENCE_ID"), res.getDouble("ABSCISSE"), res.getDouble("ORDONNEE"), res.getDouble("COUT_LOCATION"), res.getDouble("CA_MAX"), res.getDouble("EMPRUNT_MAX"));
+            listeAgenceRegionale.add(a);
+        }
+        res.close();
+        stmt.close();
+        return listeAgenceRegionale;
     }
 
     private void connect() throws SQLException, ClassNotFoundException {

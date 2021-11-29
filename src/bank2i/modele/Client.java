@@ -77,7 +77,8 @@ public class Client implements Serializable {
 
     @Override
     public String toString() {
-        return "Client{" + "id=" + idClient + ", x=" + x + ", y=" + y + ", chiffreAffaire=" + chiffreAffaire + ", montantEmprunt=" + montantEmprunt + '}';
+        //return "Client{" + "id=" + idClient + ", x=" + x + ", y=" + y + ", chiffreAffaire=" + chiffreAffaire + ", montantEmprunt=" + montantEmprunt + '}';
+        return "Client " + idClient;
     }
 
     public static void main(String[] args) {

@@ -5,6 +5,8 @@
  */
 package vuecontrole;
 
+import bank2i.modele.AgenceLocale;
+import bank2i.modele.AgenceRegionale;
 import bank2i.modele.Client;
 import java.awt.Color;
 import java.sql.SQLException;
@@ -27,7 +29,7 @@ public class Accueil extends javax.swing.JFrame {
         initComponents();
         initialisationFenetre();
         initConnexion();
-        remplirListeClients();
+        remplirListes();
     }
 
     private void initialisationFenetre() {
@@ -49,13 +51,26 @@ public class Accueil extends javax.swing.JFrame {
         }
     }
 
-    private void remplirListeClients() throws SQLException {
-        DefaultListModel list = new DefaultListModel();
+    private void remplirListes() throws SQLException {
+        DefaultListModel list1 = new DefaultListModel();
+        DefaultListModel list2 = new DefaultListModel();
+        DefaultListModel list3 = new DefaultListModel();
+        
         List<Client> clientlist = requete.ensClients();
         for (Client c : clientlist) {
-            list.addElement(c.toString());
+            list1.addElement(c.toString());
+        }        
+        List<AgenceLocale> localelist = requete.ensAgenceLocale();
+        for (AgenceLocale a1 : localelist) {
+            list2.addElement(a1.toString());
+        }        
+        List<AgenceRegionale> regionalelist = requete.ensAgenceRegionale();
+        for (AgenceRegionale a2 : regionalelist) {
+            list3.addElement(a2.toString());
         }
-        JList_client.setModel(list);
+        JList_client.setModel(list1);
+        JList_agence_locale.setModel(list2);
+        JList_agence_regionale.setModel(list3);
     }
 
     /**
@@ -69,6 +84,15 @@ public class Accueil extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         JList_client = new javax.swing.JList<>();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        JList_agence_locale = new javax.swing.JList<>();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        JList_agence_regionale = new javax.swing.JList<>();
+        position = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(90, 196, 197));
@@ -77,25 +101,92 @@ public class Accueil extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(JList_client);
 
+        jLabel1.setText("Liste des éléments");
+
+        jLabel2.setText("Clients");
+
+        jLabel3.setText("Agences locales");
+
+        jScrollPane2.setViewportView(JList_agence_locale);
+
+        jLabel4.setText("Agences regionales");
+
+        jScrollPane3.setViewportView(JList_agence_regionale);
+
+        position.setBackground(new java.awt.Color(51, 0, 204));
+        position.setText("Afficher les positions");
+        position.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                positionMouseClicked(evt);
+            }
+        });
+        position.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                positionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(329, 329, 329)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(641, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(319, 319, 319)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(49, 49, 49)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(125, 125, 125)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(138, 138, 138)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(333, 333, 333)
+                        .addComponent(position, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(432, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(127, 127, 127)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(270, Short.MAX_VALUE))
+                .addGap(20, 20, 20)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
+                .addComponent(position, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(83, 83, 83))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void positionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_positionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_positionActionPerformed
+
+    private void positionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_positionMouseClicked
+        Position p = new Position();
+    }//GEN-LAST:event_positionMouseClicked
 
     /**
      * @param args the command line arguments
@@ -137,7 +228,16 @@ public class Accueil extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList<String> JList_agence_locale;
+    private javax.swing.JList<String> JList_agence_regionale;
     private javax.swing.JList<String> JList_client;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JButton position;
     // End of variables declaration//GEN-END:variables
 }
