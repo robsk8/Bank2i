@@ -9,6 +9,9 @@ package bank2i.modele;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  *
@@ -30,13 +33,15 @@ public class AgenceRegionale extends Agence implements Serializable {
         this.montantEmpruntMax = 0;
     }
     
-    public AgenceRegionale(String id, double x, double y, double coutLocation, double chiffreAffaireMax, double montantEmpruntMax) {
-        super(id,x,y,coutLocation);
-        if (chiffreAffaireMax > 0)
+    
+
+    public AgenceRegionale(String id, double x, double y, double coutLocation, double chiffreAffaireMax, double montantEmpruntMax, Instance instance) {
+        super(id,x,y,coutLocation, instance);
+        if(chiffreAffaireMax > 0)
             this.chiffreAffaireMax = chiffreAffaireMax;
         else
             this.chiffreAffaireMax = 0;
-        if (montantEmpruntMax > 0)
+        if(montantEmpruntMax > 0)
             this.montantEmpruntMax = montantEmpruntMax;
         else
             this.montantEmpruntMax = 0;
@@ -47,11 +52,12 @@ public class AgenceRegionale extends Agence implements Serializable {
         return "AgenceRegionale{" + super.toString() + ", chiffreAffaireMax=" + chiffreAffaireMax + ", montantEmpruntMax=" + montantEmpruntMax + '}';
     }
 
+    
     public static void main(String[] args) {
-        AgenceRegionale a1 = new AgenceRegionale("r1", 50.3, 502.3, 59394.34, 40405.0, 4);
-        AgenceRegionale a2 = new AgenceRegionale("r2", 5.3, 2.3, 594.34, -455.0, 5000);
-        System.out.println("a1:" + a1.toString());
-        System.out.println("a2:" + a2.toString());
+//        AgenceRegionale a1 = new AgenceRegionale("r1",50.3,502.3,59394.34,40405.0,4);
+//        AgenceRegionale a2 = new AgenceRegionale("r2",5.3,2.3,594.34,-455.0,5000);
+//        System.out.println("A1:" + a1.toString());
+//        System.out.println("A2:" + a2.toString());
     }
 
 }

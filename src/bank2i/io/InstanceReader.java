@@ -8,6 +8,7 @@ package bank2i.io;
 import bank2i.modele.AgenceLocale;
 import bank2i.modele.AgenceRegionale;
 import bank2i.modele.Client;
+import bank2i.modele.Instance;
 import io.exception.EmptyFieldException;
 import io.exception.FieldFormatException;
 import io.exception.FieldNameException;
@@ -100,7 +101,6 @@ public class InstanceReader {
         ////////////////////////////////////////////
         // TODO : Vous pouvez creer une instance.
         ////////////////////////////////////////////
-
         final EntityManagerFactory emf = Persistence.createEntityManagerFactory("Bank2IPU");
         final EntityManager em = emf.createEntityManager();
         try {
@@ -108,14 +108,18 @@ public class InstanceReader {
             try {
                 et.begin();
                 readStringInLine(scanner, HEADER_CLIENTS);
+                Instance nomInstance = new Instance(nom);
+                em.persist(nomInstance);
+                System.out.println("INSTANCE: " + nomInstance.getNom() + ", ID:" + nomInstance.getId());
                 // Dans la boucle qui suit, nous allons lire les donnees relatives a chaque client.
                 while (true) {
                     InfosClient elem = readClientInLine(scanner, HEADER_AGENCES_LOCALES);
+                    //System.out.println("ELEM:" + elem);
                     if (elem == null) {
                         break;
                     }
-                    Client c = new Client(elem.getIdentifiant(), elem.getAbscisse(), elem.getOrdonnee(), elem.getChiffreAffaires(), elem.getEmprunts());
-                    System.out.println("c:" + c.toString());
+                    Client c = new Client(elem.getIdentifiant(), elem.getAbscisse(), elem.getOrdonnee(), elem.getChiffreAffaires(), elem.getEmprunts(),nomInstance);
+                    System.out.println("C:" + c.toString());
                     em.persist(c);
                     // Notez que elem est un objet qui contient cinq attributs : 
                     // un identifiant ; une abscisse ; une ordonnee, un chiffre d'affaires
@@ -135,11 +139,12 @@ public class InstanceReader {
                 // Dans la boucle qui suit, nous allons lire les donnees relatives a chaque agence locale.
                 while (true) {
                     InfosAgenceLocale elem = readAgenceLocaleInLine(scanner, HEADER_AGENCES_REGIONALES);
+                    //System.out.println("ELEM AGENCE:" + elem);
                     if (elem == null) {
                         break;
                     }
-                    AgenceLocale l = new AgenceLocale(elem.getIdentifiant(), elem.getAbscisse(), elem.getOrdonnee(), elem.getCoutLocation(), elem.getNbMaxClients(), elem.getAccessibilitte());
-                    System.out.println("al:" + l.toString());
+                    AgenceLocale l = new AgenceLocale(elem.getIdentifiant(), elem.getAbscisse(), elem.getOrdonnee(), elem.getCoutLocation(), elem.getNbMaxClients(), elem.getAccessibilitte(),nomInstance);
+                    System.out.println("AL:" + l.toString());
                     em.persist(l);
                     // Notez que elem est un objet qui contient six attributs : 
                     // un identifiant ; une abscisse ; une ordonnee ; un cout de
@@ -163,8 +168,8 @@ public class InstanceReader {
                     if (elem == null) {
                         break;
                     }
-                    AgenceRegionale r = new AgenceRegionale(elem.getIdentifiant(), elem.getAbscisse(), elem.getOrdonnee(), elem.getCoutLocation(), elem.getChiffreAffairesMax(), elem.getEmpruntsMax());
-                    System.out.println("ar:" + r.toString());
+                    AgenceRegionale r = new AgenceRegionale(elem.getIdentifiant(), elem.getAbscisse(), elem.getOrdonnee(), elem.getCoutLocation(), elem.getChiffreAffairesMax(), elem.getEmpruntsMax(),nomInstance);
+                    System.out.println("AR:" + r.toString());
                     em.persist(r);
                     // Notez que elem est un objet qui contient six attributs : 
                     // un identifiant ; une abscisse ; une ordonnee ; un cout de
