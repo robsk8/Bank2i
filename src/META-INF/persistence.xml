@@ -6,12 +6,13 @@
     <class>bank2i.modele.AgenceLocale</class>
     <class>bank2i.modele.AgenceRegionale</class>
     <class>bank2i.modele.Client</class>
+    <class>bank2i.modele.Instance</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/Bank2iDB"/>
       <property name="javax.persistence.jdbc.user" value="robin"/>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
       <property name="javax.persistence.jdbc.password" value="mysql"/>
-      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>
 </persistence>

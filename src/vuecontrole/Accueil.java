@@ -8,11 +8,13 @@ package vuecontrole;
 import bank2i.modele.AgenceLocale;
 import bank2i.modele.AgenceRegionale;
 import bank2i.modele.Client;
+import bank2i.modele.Instance;
 import java.awt.Color;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import requete.RequeteDB;
@@ -29,7 +31,7 @@ public class Accueil extends javax.swing.JFrame {
         initComponents();
         initialisationFenetre();
         initConnexion();
-        remplirListes();
+        remplirListeInstance();
     }
 
     private void initialisationFenetre() {
@@ -51,26 +53,11 @@ public class Accueil extends javax.swing.JFrame {
         }
     }
 
-    private void remplirListes() throws SQLException {
-        DefaultListModel list1 = new DefaultListModel();
-        DefaultListModel list2 = new DefaultListModel();
-        DefaultListModel list3 = new DefaultListModel();
-        
-        List<Client> clientlist = requete.ensClients();
-        for (Client c : clientlist) {
-            list1.addElement(c.toString());
-        }        
-        List<AgenceLocale> localelist = requete.ensAgenceLocale();
-        for (AgenceLocale a1 : localelist) {
-            list2.addElement(a1.toString());
-        }        
-        List<AgenceRegionale> regionalelist = requete.ensAgenceRegionale();
-        for (AgenceRegionale a2 : regionalelist) {
-            list3.addElement(a2.toString());
+    private void remplirListeInstance() throws SQLException {
+        List<Instance> instancelist = requete.ensInstance();
+        for (Instance i : instancelist) {
+            jComboBox_instance.addItem(i);
         }
-        JList_client.setModel(list1);
-        JList_agence_locale.setModel(list2);
-        JList_agence_regionale.setModel(list3);
     }
 
     /**
@@ -93,6 +80,8 @@ public class Accueil extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         JList_agence_regionale = new javax.swing.JList<>();
         position = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jComboBox_instance = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(90, 196, 197));
@@ -126,6 +115,19 @@ public class Accueil extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setText("Instances");
+
+        jComboBox_instance.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jComboBox_instanceMouseClicked(evt);
+            }
+        });
+        jComboBox_instance.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_instanceActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -133,46 +135,57 @@ public class Accueil extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(319, 319, 319)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(125, 125, 125)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(138, 138, 138)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(333, 333, 333)
-                        .addComponent(position, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(432, Short.MAX_VALUE))
+                        .addComponent(position, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(45, 45, 45)
+                                .addComponent(jLabel5))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addComponent(jComboBox_instance, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(170, 170, 170)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(41, 41, 41)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(76, 76, 76)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(102, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(59, 59, 59)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
+                        .addComponent(jScrollPane3))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox_instance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addComponent(position, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(83, 83, 83))
         );
@@ -186,11 +199,46 @@ public class Accueil extends javax.swing.JFrame {
 
     private void positionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_positionMouseClicked
         try {
+            Instance i = (Instance) jComboBox_instance.getSelectedItem();
             Position p = new Position();
+            p.afficherPoints(i);
         } catch (SQLException ex) {
             Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_positionMouseClicked
+
+    private void jComboBox_instanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_instanceActionPerformed
+         try {
+            DefaultListModel list1 = new DefaultListModel();
+            DefaultListModel list2 = new DefaultListModel();
+            DefaultListModel list3 = new DefaultListModel();
+            
+            Instance i = (Instance) jComboBox_instance.getSelectedItem();
+            
+            
+            List<Client> clientlist = requete.ensClients(i);
+            for (Client c : clientlist) {
+                list1.addElement(c.toString());
+            }
+            List<AgenceLocale> localelist = requete.ensAgenceLocale(i);
+            for (AgenceLocale a1 : localelist) {
+                list2.addElement(a1.toString());
+            }
+            List<AgenceRegionale> regionalelist = requete.ensAgenceRegionale(i);
+            for (AgenceRegionale a2 : regionalelist) {
+                list3.addElement(a2.toString());
+            }
+            JList_client.setModel(list1);
+            JList_agence_locale.setModel(list2);
+            JList_agence_regionale.setModel(list3);
+        } catch (SQLException ex) {
+            Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jComboBox_instanceActionPerformed
+
+    private void jComboBox_instanceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox_instanceMouseClicked
+       
+    }//GEN-LAST:event_jComboBox_instanceMouseClicked
 
     /**
      * @param args the command line arguments
@@ -235,10 +283,12 @@ public class Accueil extends javax.swing.JFrame {
     private javax.swing.JList<String> JList_agence_locale;
     private javax.swing.JList<String> JList_agence_regionale;
     private javax.swing.JList<String> JList_client;
+    private javax.swing.JComboBox<Instance> jComboBox_instance;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

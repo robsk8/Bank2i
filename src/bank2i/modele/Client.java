@@ -6,12 +6,15 @@
 
 package bank2i.modele;
 
+import java.awt.BorderLayout;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -31,17 +34,39 @@ public class Client implements Serializable {
     private double x;
     @Column(name="ORDONNEE",nullable = false)
     private double y;
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
+    @Column(name="CHIFFRE_AFFAIRE",nullable = false)
+    private double chiffreAffaire;
+    @Column(name="MONTANT_EMPRUNT",nullable = false)
+    private double montantEmprunt;
+    @ManyToOne
+    @JoinColumn(name="INSTANCE_ID")
+    private Instance instance;
+    @ManyToOne
+    @JoinColumn(name="AGENCE_LOCALE_ID")
+    private AgenceLocale agenceLocale;
+    @ManyToOne
+    @JoinColumn(name="AGENCE_REGIONALE_ID")
+    private AgenceRegionale agenceRegionale;
+    
+    public Client() {
+        this.idClient = "-1";
+        this.x = 0;
+        this.y = 0;
+        this.chiffreAffaire = 0;
+        this.montantEmprunt = 0;
+        this.instance = new Instance();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getIdClient() {
-        return idClient;
+    public Client(String id, double x, double y, double chiffreAffaire, double montantEmprunt, Instance instance) {
+        if (id != null)
+            this.idClient = id;
+        this.x = x;
+        this.y = y;
+        if (chiffreAffaire > 0)
+            this.chiffreAffaire = chiffreAffaire;
+        if (montantEmprunt > 0)
+            this.montantEmprunt = montantEmprunt;
+        this.instance = instance;
     }
 
     public double getX() {
@@ -59,28 +84,27 @@ public class Client implements Serializable {
     public double getMontantEmprunt() {
         return montantEmprunt;
     }
-    @Column(name="CHIFFRE_AFFAIRE",nullable = false)
-    private double chiffreAffaire;
-    @Column(name="MONTANT_EMPRUNT",nullable = false)
-    private double montantEmprunt;
-    
-    public Client() {
-        this.idClient = "-1";
-        this.x = 0;
-        this.y = 0;
-        this.chiffreAffaire = 0;
-        this.montantEmprunt = 0;
+
+    public Instance getInstance() {
+        return instance;
     }
 
-    public Client(String id, double x, double y, double chiffreAffaire, double montantEmprunt) {
-        if(id!=null)
-            this.idClient = id;
-        this.x = x;
-        this.y = y;
-        if(chiffreAffaire>0)
-            this.chiffreAffaire = chiffreAffaire;
-        if(montantEmprunt>0)
-            this.montantEmprunt = montantEmprunt;
+    public AgenceLocale getAgenceLocale() {
+        return agenceLocale;
+    }
+
+    public void setAgenceLocale(AgenceLocale agenceLocale) {
+        if (agenceLocale != null)
+            this.agenceLocale = agenceLocale;
+    }
+
+    public AgenceRegionale getAgenceRegionale() {
+        return agenceRegionale;
+    }
+
+    public void setAgenceRegionale(AgenceRegionale agenceRegionale) {
+        if (agenceRegionale != null)
+            this.agenceRegionale = agenceRegionale;
     }
     
     @Override
@@ -105,13 +129,15 @@ public class Client implements Serializable {
 
     @Override
     public String toString() {
-        //return "Client{" + "id=" + idClient + ", x=" + x + ", y=" + y + ", chiffreAffaire=" + chiffreAffaire + ", montantEmprunt=" + montantEmprunt + '}';
-        return "Client " + idClient;
+        return "Client{" + "id=" + idClient + ", x=" + x + ", y=" + y + ", chiffreAffaire=" + chiffreAffaire + ", montantEmprunt=" + montantEmprunt + '}';
     }
 
     public static void main(String[] args) {
-        Client c1 = new Client("TOTOT",5.5,4.5,4.5,4.6);
-        System.out.println("C1:" + c1.toString() +")");
+        Client c1 = new Client();
+        AgenceLocale al1 = new AgenceLocale();
+        al1.ajouterClient(c1);
+        for(Client c : al1.getClients())
+            System.out.println(c.toString());
     }
 
 }

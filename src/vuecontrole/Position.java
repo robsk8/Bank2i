@@ -8,6 +8,7 @@ package vuecontrole;
 import bank2i.modele.AgenceLocale;
 import bank2i.modele.AgenceRegionale;
 import bank2i.modele.Client;
+import bank2i.modele.Instance;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -33,7 +34,6 @@ public class Position extends javax.swing.JFrame {
         initComponents();
         initialisationFenetre();
         initConnexion();
-        afficherPoints();
  
     }
 
@@ -57,24 +57,24 @@ public class Position extends javax.swing.JFrame {
         }
     }
     
-    private void afficherPoints() throws SQLException{
+    public void afficherPoints(Instance i) throws SQLException{
         DefaultListModel list1 = new DefaultListModel();
         DefaultListModel list2 = new DefaultListModel();
         DefaultListModel list3 = new DefaultListModel();
-        List<Client> clientlist = requete.ensClients();
+        List<Client> clientlist = requete.ensClients(i);
        for (Client c : clientlist) {
             Points p = new Points(c.getX(),c.getY(),Color.green);
             jPanel1.add(p);
             p.setSize(jPanel1.getHeight(),jPanel1.getWidth());
             
        }  
-       List<AgenceLocale> localelist = requete.ensAgenceLocale();
+       List<AgenceLocale> localelist = requete.ensAgenceLocale(i);
         for (AgenceLocale a1 : localelist) {
             Points p = new Points(a1.getX(),a1.getY(),Color.blue);
             jPanel1.add(p);
             p.setSize(jPanel1.getHeight(),jPanel1.getWidth());
        }  
-       List<AgenceRegionale> regionalelist = requete.ensAgenceRegionale();
+       List<AgenceRegionale> regionalelist = requete.ensAgenceRegionale(i);
         for (AgenceRegionale a2 : regionalelist) {
             Points p = new Points(a2.getX(),a2.getY(),Color.red);
             jPanel1.add(p);
