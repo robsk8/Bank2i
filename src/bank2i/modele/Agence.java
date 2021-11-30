@@ -7,11 +7,16 @@
 package bank2i.modele;
 
 import java.io.Serializable;
+import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -33,21 +38,42 @@ public class Agence implements Serializable {
     private double y;
     @Column(name="COUT_LOCATION",nullable = false)
     private double coutLocation;
+    @ManyToOne
+    @JoinColumn(name="INSTANCE_ID")
+    private Instance instance;
     
     public Agence() {
-        idAgence = "a0";
-        x = 0;
-        y = 0;
-        coutLocation = 0;
+        this.idAgence = "a0";
+        this.x = 0;
+        this.y = 0;
+        this.coutLocation = 0;
+        this.instance = new Instance();
     }
 
-    public Agence(String id, double x, double y, double coutLocation) {
+    public Agence(String id, double x, double y, double coutLocation, Instance instance) {
         if (id != null)
             this.idAgence = id;
         this.x = x;
         this.y = y;
         if (coutLocation >= 0)
             this.coutLocation = coutLocation;
+        this.instance = instance;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public double getCoutLocation() {
+        return coutLocation;
+    }
+
+    public Instance getInstance() {
+        return instance;
     }
 
     @Override

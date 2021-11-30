@@ -6,12 +6,15 @@
 
 package bank2i.modele;
 
+import java.awt.BorderLayout;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -35,6 +38,15 @@ public class Client implements Serializable {
     private double chiffreAffaire;
     @Column(name="MONTANT_EMPRUNT",nullable = false)
     private double montantEmprunt;
+    @ManyToOne
+    @JoinColumn(name="INSTANCE_ID")
+    private Instance instance;
+    @ManyToOne
+    @JoinColumn(name="AGENCE_LOCALE_ID")
+    private AgenceLocale agenceLocale;
+    @ManyToOne
+    @JoinColumn(name="AGENCE_REGIONALE_ID")
+    private AgenceRegionale agenceRegionale;
     
     public Client() {
         this.idClient = "-1";
@@ -42,17 +54,57 @@ public class Client implements Serializable {
         this.y = 0;
         this.chiffreAffaire = 0;
         this.montantEmprunt = 0;
+        this.instance = new Instance();
     }
 
-    public Client(String id, double x, double y, double chiffreAffaire, double montantEmprunt) {
+    public Client(String id, double x, double y, double chiffreAffaire, double montantEmprunt, Instance instance) {
         if (id != null)
             this.idClient = id;
         this.x = x;
         this.y = y;
         if (chiffreAffaire > 0)
             this.chiffreAffaire = chiffreAffaire;
-        if( montantEmprunt > 0)
+        if (montantEmprunt > 0)
             this.montantEmprunt = montantEmprunt;
+        this.instance = instance;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public double getChiffreAffaire() {
+        return chiffreAffaire;
+    }
+
+    public double getMontantEmprunt() {
+        return montantEmprunt;
+    }
+
+    public Instance getInstance() {
+        return instance;
+    }
+
+    public AgenceLocale getAgenceLocale() {
+        return agenceLocale;
+    }
+
+    public void setAgenceLocale(AgenceLocale agenceLocale) {
+        if (agenceLocale != null)
+            this.agenceLocale = agenceLocale;
+    }
+
+    public AgenceRegionale getAgenceRegionale() {
+        return agenceRegionale;
+    }
+
+    public void setAgenceRegionale(AgenceRegionale agenceRegionale) {
+        if (agenceRegionale != null)
+            this.agenceRegionale = agenceRegionale;
     }
     
     @Override
@@ -81,8 +133,11 @@ public class Client implements Serializable {
     }
 
     public static void main(String[] args) {
-        Client c1 = new Client("Toto", 5.5, 4.5, 4.5, 4.6);
-        System.out.println("c1:" + c1.toString() + ")");
+        Client c1 = new Client();
+        AgenceLocale al1 = new AgenceLocale();
+        al1.ajouterClient(c1);
+        for(Client c : al1.getClients())
+            System.out.println(c.toString());
     }
 
 }

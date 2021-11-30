@@ -6,6 +6,7 @@
     <class>bank2i.modele.AgenceLocale</class>
     <class>bank2i.modele.AgenceRegionale</class>
     <class>bank2i.modele.Client</class>
+    <class>bank2i.modele.Instance</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/Bank2IDB"/>
       <property name="javax.persistence.jdbc.user" value="victor"/>

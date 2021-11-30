@@ -8,6 +8,7 @@ package bank2i.io;
 import bank2i.modele.AgenceLocale;
 import bank2i.modele.AgenceRegionale;
 import bank2i.modele.Client;
+import bank2i.modele.Instance;
 import io.exception.EmptyFieldException;
 import io.exception.FieldFormatException;
 import io.exception.FieldNameException;
@@ -108,13 +109,20 @@ public class InstanceReader {
             try {
                 et.begin();
                 readStringInLine(scanner, HEADER_CLIENTS);
+                
+                // On insère une nouvelle instance en DB
+                Instance i = new Instance(nom);
+                em.persist(i);
+                
+                System.out.println("ID Instance: " + i.getId());
+                
                 // Dans la boucle qui suit, nous allons lire les donnees relatives a chaque client.
                 while (true) {
                     InfosClient elem = readClientInLine(scanner, HEADER_AGENCES_LOCALES);
                     if (elem == null) {
                         break;
                     }
-                    Client c = new Client(elem.getIdentifiant(), elem.getAbscisse(), elem.getOrdonnee(), elem.getChiffreAffaires(), elem.getEmprunts());
+                    Client c = new Client(elem.getIdentifiant(), elem.getAbscisse(), elem.getOrdonnee(), elem.getChiffreAffaires(), elem.getEmprunts(), i);
                     System.out.println("c:" + c.toString());
                     em.persist(c);
                     // Notez que elem est un objet qui contient cinq attributs : 
@@ -138,7 +146,7 @@ public class InstanceReader {
                     if (elem == null) {
                         break;
                     }
-                    AgenceLocale l = new AgenceLocale(elem.getIdentifiant(), elem.getAbscisse(), elem.getOrdonnee(), elem.getCoutLocation(), elem.getNbMaxClients(), elem.getAccessibilitte());
+                    AgenceLocale l = new AgenceLocale(elem.getIdentifiant(), elem.getAbscisse(), elem.getOrdonnee(), elem.getCoutLocation(), elem.getNbMaxClients(), elem.getAccessibilitte(), i);
                     System.out.println("al:" + l.toString());
                     em.persist(l);
                     // Notez que elem est un objet qui contient six attributs : 
@@ -163,7 +171,7 @@ public class InstanceReader {
                     if (elem == null) {
                         break;
                     }
-                    AgenceRegionale r = new AgenceRegionale(elem.getIdentifiant(), elem.getAbscisse(), elem.getOrdonnee(), elem.getCoutLocation(), elem.getChiffreAffairesMax(), elem.getEmpruntsMax());
+                    AgenceRegionale r = new AgenceRegionale(elem.getIdentifiant(), elem.getAbscisse(), elem.getOrdonnee(), elem.getCoutLocation(), elem.getChiffreAffairesMax(), elem.getEmpruntsMax(), i);
                     System.out.println("ar:" + r.toString());
                     em.persist(r);
                     // Notez que elem est un objet qui contient six attributs : 
